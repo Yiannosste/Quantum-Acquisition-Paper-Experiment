@@ -1,4 +1,4 @@
-# Τηε Empty cell 
+# Τhe Empty cell 
 
 My position paper ("Quantum Advantage for AI Agents: Can Learning Across Instances
 Amplify a Coherent-Acquisition Advantage?") guesses that quantum memory helps an agent measure one system, but never gives it
