@@ -1,7 +1,7 @@
-# Empty cell experiment
+# Τηε Empty cell 
 
-My position paper ("Quantum Advantage for AI Agents: The Empty Cell Between Coherent Acquisition and
-Cross-Instance Generalisation") guesses that quantum memory helps an agent measure one system, but never gives it
+My position paper ("Quantum Advantage for AI Agents: Can Learning Across Instances
+Amplify a Coherent-Acquisition Advantage?") guesses that quantum memory helps an agent measure one system, but never gives it
 a big edge when it has to generalise to new systems it hasn't seen. This repo tries to break that guess.
 
 Short version: I found a task where the guess fails. An agent with two-copy quantum memory needs about the same
