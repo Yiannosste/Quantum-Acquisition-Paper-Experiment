@@ -1,10 +1,37 @@
 # Theory
 
-Draft. These proofs haven't been checked line by line yet, so don't quote them as settled.
+I have checked these proofs by hand. They are not peer reviewed.
 
 ## 1. What the paper claims
 
-From section 2.4 of the paper:
+### The current Conjecture
+
+From section 2.4 of the current version ("Quantum Advantage for AI Agents: Can Learning Across Instances Amplify a
+Coherent-Acquisition Advantage?"):
+
+> Conjecture (no amplification). Let $\mathcal{T}$ be a task family admitting an exponential acquisition
+> separation (coherent quantum memory with entangling joint measurement, against single-copy measurement with
+> classical recording) for a functional class $\mathcal{F}$, and take any downstream that is non-trivial in the
+> sense of Definition 1. A cross-instance generalisation guarantee can then inherit the separation (Definition 2)
+> only by passing the per-instance separation through:
+>
+> $N_C(\varepsilon,\delta)/N_Q(\varepsilon,\delta) \le \mathrm{poly}(n, 1/\varepsilon, 1/\delta)\cdot R_{\mathrm{inst}}(\varepsilon,\delta)$.
+>
+> Learning across instances adds no exponential advantage of its own. Any exponential factor in a cross-instance
+> guarantee is already present in the per-instance separation.
+
+$R_{\mathrm{inst}}$ comes from Definition 3: the fewest copies a single-copy instrument needs to estimate the
+target on one instance, divided by the fewest a coherent-memory instrument needs, in the worst case over
+instances.
+
+This repo fits that version. Proposition 1 with a single sample gives $R_{\mathrm{inst}} \ge c\sqrt{d}$, and the
+cross-instance ratio is also about $\sqrt{d}$, so the advantage is passed through, not made bigger. The proofs
+here only give lower bounds on $N_C/N_Q$, so the "not bigger" part is backed by the simulation, not proved.
+
+### The earlier draft's Conjecture
+
+The earlier draft ("The Empty Cell Between Coherent Acquisition and Cross-Instance Generalisation") made a
+stronger claim. This repo was built to test it, and the construction below breaks it:
 
 > Conjecture. Let $\mathcal{T}$ be a task family admitting an exponential *acquisition* separation (coherent
 > quantum memory with entangling joint measurement, against single-copy measurement with classical recording) for
@@ -27,7 +54,7 @@ guarantee "inherits" the advantage if $N_C/N_Q$ grows exponentially in n at fixe
 - **"Sample" means copy.** One could read it as "instance", and then the SWAP agent would count as classical and
   there'd be no gap. The paper rules that out: it describes the losing side as "single-copy measurement" (2.4),
   says the separations are bounds on "copies or channel uses consumed per instance" (2.4), and says about this
-  exact construction that "the single-copy learner pays the acquisition cost at every sampled θ" (3.6).
+  exact construction that "the single-copy learner pays the acquisition cost at each sampled θ" (3.6).
 - **Where the quantum part ends.** Section 3.1 says a protocol that measures first and learns from the records
   after holds no quantum memory. If the line were drawn after the SWAP test, the memory learner of Chen, Cotler,
   Huang and Li (arXiv:2111.05881, Definition 4.16) would also have none, and the paper's own row of quantum
@@ -149,8 +176,9 @@ tests check this against the actual projector.
 ## 6. Putting them together
 
 At fixed ε, δ and L, N_C / N_Q ≥ c · 2^(n/2). That grows exponentially in n, which is what Definition 2 calls
-inheriting. The learner predicts for samples it never measured, which is Definition 1. So both parts of the
-paper's falsification test (section 3.6) are met.
+inheriting. The learner predicts for samples it never measured, which is Definition 1. That breaks the earlier
+draft's Conjecture. It does not break the current one, because the cross-instance gap is about the size of the
+one-sample gap.
 
 The constant c is tiny, though. At ε = δ = 0.1 and L = 1, Proposition 2 asks for M ≈ 6.8 million, so
 c ≈ 6.5 × 10⁻⁸. The proven ratio only passes 1 at n = 48. Against the quantum agent's real cost from the
@@ -160,10 +188,10 @@ classical cost grows as ε shrinks; the proven limit √d has no ε in it.
 ## 7. Weak spots
 
 1. **The gain is really a one-sample gain.** The generalisation part is just a 1D regression. The quantum edge
-   comes from measuring each sample better, and Definition 2's copy counting carries it through. That matches
-   the conjecture's last sentence ("confined to single-instance estimation") but breaks its formal statement.
-   The paper has to keep one of the two. Changing the definitions now to rule this out is what section 2.4 of
-   the paper itself calls circular.
+   comes from measuring each sample better, and Definition 2's copy counting carries it through. That broke the
+   earlier draft's formal statement while matching its last sentence ("confined to single-instance
+   estimation"). The current version settles this by stating the Conjecture as no amplification: passing the
+   advantage through is allowed, growing it is not.
 2. **Linear targets are already done.** Huang, Kueng and Preskill (arXiv:2101.02464, Theorem 1) show no
    exponential gap for targets tr(Oρ(x)). Purity is quadratic, so it isn't covered. If you double the state to
    ρ ⊗ ρ and take O = SWAP, their classical model is exactly the SWAP agent here, so the two results agree.

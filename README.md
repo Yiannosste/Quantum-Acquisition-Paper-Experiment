@@ -1,12 +1,17 @@
-# Τhe Empty cell 
+# The Empty Cell: a two-copy purity task with a cross-instance guarantee
 
-My position paper ("Quantum Advantage for AI Agents: Can Learning Across Instances
-Amplify a Coherent-Acquisition Advantage?") guesses that quantum memory helps an agent measure one system, but never gives it
-a big edge when it has to generalise to new systems it hasn't seen. This repo tries to break that guess.
+This is the companion code for my paper "Quantum Advantage for AI Agents: Can Learning Across Instances Amplify
+a Coherent-Acquisition Advantage?".
 
-Short version: I found a task where the guess fails. An agent with two-copy quantum memory needs about the same
-number of copies at every system size. Any agent that measures one copy at a time needs at least about 2^(n/2).
-The proofs are in `docs/THEORY.md`. They are still a draft and haven't been checked line by line yet.
+An earlier draft of the paper guessed that quantum memory helps an agent measure one system, but never gives it a
+big edge when it has to generalise to new systems it hasn't seen. This repo found a task where that guess fails.
+An agent with two-copy quantum memory needs about the same number of copies at every system size. Any agent that
+measures one copy at a time needs at least about 2^(n/2). That is why the paper now asks a different question:
+can learning across instances make the advantage bigger than it is on one sample? Here it doesn't seem to. Both
+the cross-instance gap and the one-sample gap grow like 2^(n/2), so learning passes the advantage through
+without growing it. The proofs only bound the gap from below, so "not bigger" rests on the simulation.
+
+The proofs are in `docs/THEORY.md`. I have checked them by hand. They are not peer reviewed.
 
 ## The task
 
